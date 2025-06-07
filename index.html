@@ -42,6 +42,67 @@ textarea, input[type="file"], button {
     transform: translateY(0);
   }
 }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 12px;
+  padding: 0 10px;
+}
+.gallery-grid img {
+  width: 100%;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+.gallery-grid img:hover {
+  transform: scale(1.05);
+}
+
+@keyframes fadeSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.section {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeSlideIn 0.6s ease-out forwards;
+}
+.section:nth-child(2) { animation-delay: 0.2s; }
+.section:nth-child(3) { animation-delay: 0.4s; }
+.section:nth-child(4) { animation-delay: 0.6s; }
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.fade-message {
+  animation: fadeInUp 0.5s ease-out;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 </style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -132,7 +193,68 @@ textarea, input[type="file"], button {
       color: #333;
       cursor: pointer;
     }
-  </style>
+  
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 12px;
+  padding: 0 10px;
+}
+.gallery-grid img {
+  width: 100%;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+.gallery-grid img:hover {
+  transform: scale(1.05);
+}
+
+@keyframes fadeSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.section {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeSlideIn 0.6s ease-out forwards;
+}
+.section:nth-child(2) { animation-delay: 0.2s; }
+.section:nth-child(3) { animation-delay: 0.4s; }
+.section:nth-child(4) { animation-delay: 0.6s; }
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.fade-message {
+  animation: fadeInUp 0.5s ease-out;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+</style>
 
 <link rel="manifest" href="manifest.json">
 <script>
@@ -147,7 +269,7 @@ textarea, input[type="file"], button {
 <div class="container fade-in" style="display: flex; flex-direction: column; gap: 30px; padding: 40px 24px;
     background: linear-gradient(to bottom right, #ffe0c3, #ffb0c1);
     border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); max-width: 600px; margin: auto;" style="display: flex; flex-direction: column; gap: 20px; padding: 30px 20px; background: linear-gradient(to bottom right, #ffd3a5, #fd6585); border: 1px solid rgba(255,255,255,0.2);" style="display: flex; flex-direction: column; gap: 30px;">
-  <h1>🎉 Birthday Message Book 🎂</h1>
+  <h1 class="section">🎉 Birthday Message Book 🎂</h1>
 
   <h2 style="font-size: 20px; font-weight: 600; color: #333;" style="margin-bottom: 10px;">📩 Submit Your Birthday Message</h2>
   <div style="background: #fff; color: #333; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
@@ -227,7 +349,7 @@ function displayMessages() {
   container.innerHTML = "";
   messages.forEach((msg, idx) => {
     const div = document.createElement("div");
-    div.innerHTML = `🎂 ${msg} <button onclick="deleteMessage(${idx})" style="margin-left:10px;">❌</button>`;
+    div.innerHTML = `🎂 ${msg} <button class="delete-btn" onclick="deleteMessage(${idx})" style="margin-left:10px;">❌</button>`;
     container.appendChild(div);
   });
 }
@@ -418,6 +540,307 @@ document.getElementById("submitAudio").addEventListener("click", () => {
 ">
   🎙
 </button>
+
+
+<script>
+function openFullscreen(img) {
+  const viewer = document.createElement("div");
+  viewer.style = "position:fixed;top:0;left:0;width:100%;height:100%;background:#000a;display:flex;justify-content:center;align-items:center;z-index:9999;";
+  const clone = img.cloneNode();
+  clone.style = "max-width:90%;max-height:90%;border-radius:12px;box-shadow:0 0 10px #fff;";
+  viewer.appendChild(clone);
+  viewer.onclick = () => viewer.remove();
+  document.body.appendChild(viewer);
+}
+</script>
+
+<script>
+function toggleGallery() {
+  const gallery = document.getElementById("photoGallery");
+  const button = document.querySelector("button[onclick='toggleGallery()']");
+  if (gallery.style.display === "none") {
+    gallery.style.display = "block";
+    gallery.style.animation = "fadeSlideDown 0.4s ease-out";
+    button.textContent = "🙈 Hide Gallery";
+    gallery.scrollIntoView({ behavior: "smooth" });
+  } else {
+    gallery.style.display = "none";
+    button.textContent = "🖼️ View All Photos";
+  }
+}
+</script>
+
+
+<script>
+document.getElementById('audioUpload').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const audioURL = e.target.result;
+    document.getElementById('uploadedAudio').src = audioURL;
+    document.getElementById('saveAudioBtn').disabled = false;
+    document.getElementById('audioContainer').style.display = 'block';
+    document.getElementById('uploadedAudio').load();
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById('saveAudioBtn').addEventListener('click', function() {
+  const audioURL = document.getElementById('uploadedAudio').src;
+  if (!audioURL || audioURL === "#") {
+    alert("⚠️ No audio to save.");
+    return;
+  }
+  const timestamp = new Date().toLocaleString();
+  const audioObj = { url: audioURL, name: "Uploaded Audio", timestamp };
+
+  const saved = JSON.parse(localStorage.getItem("voiceMessages")) || [];
+  saved.push(audioObj);
+  localStorage.setItem("voiceMessages", JSON.stringify(saved));
+  alert("✅ Audio saved!");
+  displaySavedAudios();
+});
+
+function displaySavedAudios() {
+  let audioList = document.getElementById("savedAudioList");
+  audioList.innerHTML = "";
+  let storedAudios = JSON.parse(localStorage.getItem("voiceMessages")) || [];
+  storedAudios.forEach((audio, index) => {
+    let audioItem = document.createElement("div");
+    audioItem.innerHTML = `
+      🕒 ${audio.timestamp} - <strong>${audio.name}</strong><br>
+      <audio controls src="${audio.url}" style="width:100%;"></audio>
+      <input type="text" value="${audio.name}" onchange="renameAudio(${index}, this.value)" />
+      <button onclick="deleteAudio(${index})">❌ Delete</button>
+      <a href="${audio.url}" download="${audio.name}.mp3">⬇️ Download</a>
+      <hr>`;
+    audioList.appendChild(audioItem);
+  });
+}
+
+function renameAudio(index, newName) {
+  let storedAudios = JSON.parse(localStorage.getItem("voiceMessages")) || [];
+  storedAudios[index].name = newName;
+  localStorage.setItem("voiceMessages", JSON.stringify(storedAudios));
+  displaySavedAudios();
+}
+
+function deleteAudio(index) {
+  let storedAudios = JSON.parse(localStorage.getItem("voiceMessages")) || [];
+  storedAudios.splice(index, 1);
+  localStorage.setItem("voiceMessages", JSON.stringify(storedAudios));
+  displaySavedAudios();
+}
+
+window.onload = function() {
+  displaySavedAudios();
+};
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("birthdayForm");
+  const input = document.getElementById("message");
+  const messageList = document.getElementById("messageList");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const message = input.value.trim();
+    if (message === "") {
+      alert("⚠️ Please enter a message.");
+      return;
+    }
+
+    const stored = JSON.parse(localStorage.getItem("birthdayMessages")) || [];
+    stored.push(message);
+    localStorage.setItem("birthdayMessages", JSON.stringify(stored));
+
+    input.value = "";
+    alert("🎉 Message submitted!");
+    displayMessages();
+  });
+
+  function displayMessages() {
+    const stored = JSON.parse(localStorage.getItem("birthdayMessages")) || [];
+    messageList.innerHTML = "";
+    stored.forEach((msg, index) => {
+      const div = document.createElement("div");
+      div.innerHTML = `🎂 ${msg} <button class="delete-btn" onclick="deleteMessage(${index})">❌</button>`;
+      div.style.marginBottom = "10px";
+      div.style.padding = "8px";
+      div.style.border = "1px solid #ccc";
+      div.style.borderRadius = "6px";
+      messageList.appendChild(div);
+    });
+  }
+
+  window.deleteMessage = function(index) {
+    const stored = JSON.parse(localStorage.getItem("birthdayMessages")) || [];
+    stored.splice(index, 1);
+    localStorage.setItem("birthdayMessages", JSON.stringify(stored));
+    displayMessages();
+  }
+
+  displayMessages(); // show on load
+});
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("birthdayForm");
+  const nameInput = document.getElementById("guestName");
+  const messageInput = document.getElementById("message");
+  const messageList = document.getElementById("messageList");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const name = nameInput.value.trim();
+    const message = messageInput.value.trim();
+
+    if (!name || !message) {
+      alert("⚠️ Please enter both name and message.");
+      return;
+    }
+
+    const newEntry = {
+      name: name,
+      text: message,
+      time: new Date().toLocaleString()
+    };
+
+    const stored = JSON.parse(localStorage.getItem("birthdayMessages")) || [];
+    stored.push(newEntry);
+    localStorage.setItem("birthdayMessages", JSON.stringify(stored));
+
+    nameInput.value = "";
+    messageInput.value = "";
+
+    alert("🎉 Message submitted!");
+    displayMessages();
+  });
+
+  function displayMessages() {
+    const stored = JSON.parse(localStorage.getItem("birthdayMessages")) || [];
+    messageList.innerHTML = "";
+    stored.forEach((entry, index) => {
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <strong>${entry.name}</strong> <em style="color:gray;font-size:0.85em">[${entry.time}]</em><br>
+        🎂 ${entry.text}
+        <button class="delete-btn" onclick="deleteMessage(${index})">❌</button>`;
+      div.className = "fade-message";
+      div.style.marginBottom = "12px";
+      div.style.padding = "10px";
+      div.style.border = "1px solid #ccc";
+      div.style.borderRadius = "6px";
+      div.style.background = "#fff6fc";
+      div.style.boxShadow = "0 1px 4px rgba(0,0,0,0.05)";
+      messageList.appendChild(div);
+    });
+  }
+
+  window.deleteMessage = function(index) {
+    const stored = JSON.parse(localStorage.getItem("birthdayMessages")) || [];
+    stored.splice(index, 1);
+    localStorage.setItem("birthdayMessages", JSON.stringify(stored));
+    displayMessages();
+  };
+
+  displayMessages(); // show on load
+});
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("birthdayForm");
+  const nameInput = document.getElementById("guestName");
+  const messageInput = document.getElementById("message");
+  const messageList = document.getElementById("messageList");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const name = nameInput.value.trim();
+    const message = messageInput.value.trim();
+
+    if (!name || !message) {
+      alert("⚠️ Please enter both name and message.");
+      return;
+    }
+
+    const newEntry = {
+      name: name,
+      text: message,
+      time: new Date().toLocaleString(),
+      avatar: "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+    };
+
+    const stored = JSON.parse(localStorage.getItem("birthdayMessages")) || [];
+    stored.push(newEntry);
+    localStorage.setItem("birthdayMessages", JSON.stringify(stored));
+
+    nameInput.value = "";
+    messageInput.value = "";
+
+    alert("🎉 Message submitted!");
+    displayMessages();
+  });
+
+  function displayMessages() {
+    const stored = JSON.parse(localStorage.getItem("birthdayMessages")) || [];
+    messageList.innerHTML = "";
+    stored.forEach((entry, index) => {
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <div style="display:flex;align-items:flex-start;gap:10px;">
+          <img src="${entry.avatar}" alt="avatar" style="width:40px;height:40px;border-radius:50%;border:1px solid #ccc;">
+          <div>
+            <strong>${entry.name}</strong> 
+            <em style="color:gray;font-size:0.85em">[${entry.time}]</em><br>
+            🎂 ${entry.text}<br>
+            <button class="delete-btn" onclick="deleteMessage(${index})">❌</button>
+          </div>
+        </div>`;
+      div.className = "fade-message";
+      div.style.marginBottom = "12px";
+      div.style.padding = "10px";
+      div.style.border = "1px solid #ccc";
+      div.style.borderRadius = "6px";
+      div.style.background = "#fff6fc";
+      div.style.boxShadow = "0 1px 4px rgba(0,0,0,0.05)";
+      messageList.appendChild(div);
+    });
+  }
+
+  window.deleteMessage = function(index) {
+    const stored = JSON.parse(localStorage.getItem("birthdayMessages")) || [];
+    stored.splice(index, 1);
+    localStorage.setItem("birthdayMessages", JSON.stringify(stored));
+    displayMessages();
+  };
+
+  displayMessages(); // show on load
+});
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const clearButton = document.getElementById("clearMessagesBtn");
+  if (clearButton) {
+    clearButton.addEventListener("click", function () {
+      if (confirm("Are you sure you want to delete all birthday messages?")) {
+        localStorage.removeItem("birthdayMessages");
+        displayMessages();
+      }
+    });
+  }
+});
+</script>
 
 </body>
 </html>
