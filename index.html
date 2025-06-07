@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+.container {
+  width: 100%;
+  box-sizing: border-box;
+}
+textarea, input[type="file"], button {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+@media (max-width: 480px) {
+  .button {
+    font-size: 14px !important;
+    padding: 10px 12px !important;
+  }
+  h2 {
+    font-size: 18px !important;
+  }
+  audio {
+    width: 100% !important;
+  }
+}
+.fade-in {
+  animation: fadeInUp 0.8s ease both;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Birthday Message Book 🎂</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js">
+document.getElementById("submitAudio").addEventListener("click", () => {
+  const audioSrc = document.getElementById("audioPlayback").src;
+  if (audioSrc && audioSrc.startsWith("data:audio")) {
+    const storedAudios = JSON.parse(localStorage.getItem("voiceMessages") || "[]");
+    storedAudios.push({
+      url: audioSrc,
+      timestamp: new Date().toLocaleString(),
+      name: "Voice Message " + (storedAudios.length + 1)
+    });
+    localStorage.setItem("voiceMessages", JSON.stringify(storedAudios));
+    document.getElementById("saveConfirmation").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("saveConfirmation").style.display = "none";
+    }, 3000);
+  }
+});
+</script>
+  <style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+.container {
+  width: 100%;
+  box-sizing: border-box;
+}
+textarea, input[type="file"], button {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+@media (max-width: 480px) {
+  .button {
+    font-size: 14px !important;
+    padding: 10px 12px !important;
+  }
+  h2 {
+    font-size: 18px !important;
+  }
+  audio {
+    width: 100% !important;
+  }
+}
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(135deg, #ffcc80, #ff80ab, #b39ddb);
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
+    }
+    textarea {
+  width: 100%;
+  height: 150px;
+  margin-top: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  resize: vertical;
+
+      width: 100%;
+      height: 100px;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .button {
+      padding: 10px 16px;
+      font-weight: bold;
+      background: #ffffff;
+      border: none;
+      border-radius: 6px;
+      color: #333;
+      cursor: pointer;
+    }
+  </style>
+
+<link rel="manifest" href="manifest.json">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').then(() => {
+      console.log('Service Worker registered ✅');
+    });
+  }
+</script>
+</head>
+<body>
+<div class="container fade-in" style="display: flex; flex-direction: column; gap: 30px; padding: 40px 24px;
+    background: linear-gradient(to bottom right, #ffe0c3, #ffb0c1);
+    border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); max-width: 600px; margin: auto;" style="display: flex; flex-direction: column; gap: 20px; padding: 30px 20px; background: linear-gradient(to bottom right, #ffd3a5, #fd6585); border: 1px solid rgba(255,255,255,0.2);" style="display: flex; flex-direction: column; gap: 30px;">
+  <h1>🎉 Birthday Message Book 🎂</h1>
+
+  <h2 style="font-size: 20px; font-weight: 600; color: #333;" style="margin-bottom: 10px;">📩 Submit Your Birthday Message</h2>
+  <div style="background: #fff; color: #333; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+    <form id="birthdayForm" style="display:flex; flex-direction: column; align-items: center; gap: 15px;">
+    <textarea style="border: 1px solid #ccc; border-radius: 8px; padding: 12px; font-size: 15px; resize: vertical;" id="message" placeholder="Type your birthday wish here..."></textarea>
+    <button type="submit" class="button" style="padding: 10px 18px; border-radius: 10px; font-size: 15px; font-weight: bold;
+    background: #ffffff; color: #333; border: none; box-shadow: 0 2px 6px rgba(0,0,0,0.15); transition: transform 0.2s;"
+    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">📤 Submit Message</button>
+  </form></div>
+
+  <h2 style="font-size: 20px; font-weight: 600; color: #333;" style="margin-top: 20px;">📜 Saved Birthday Messages</h2>
+  <div style="background: #fff; color: #333; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+    <div id="messageList" style="margin-bottom: 20px;"></div>
+  </div><div style="margin-top: 10px;"><button onclick="clearAllMessages()" class="button" style="padding: 10px 18px; border-radius: 10px; font-size: 15px; font-weight: bold;
+    background: #ffffff; color: #333; border: none; box-shadow: 0 2px 6px rgba(0,0,0,0.15); transition: transform 0.2s;"
+    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">🧹 Clear All Messages</button>
+
+  
+<div id="micControls" style="display:none; flex-direction: column; align-items: center; margin-top: 30px;">
+  <h2 style="font-size: 20px; font-weight: 600; color: #333;" style="margin-bottom: 10px;">🎤 Record a Voice Message</h2>
+  <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 10px;">
+    <button id="startRecord" class="button" style="padding: 10px 18px; border-radius: 10px; font-size: 15px; font-weight: bold;
+    background: #ffffff; color: #333; border: none; box-shadow: 0 2px 6px rgba(0,0,0,0.15); transition: transform 0.2s;"
+    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">🎙 Start</button>
+    <button id="stopRecord" class="button" style="padding: 10px 18px; border-radius: 10px; font-size: 15px; font-weight: bold;
+    background: #ffffff; color: #333; border: none; box-shadow: 0 2px 6px rgba(0,0,0,0.15); transition: transform 0.2s;"
+    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" disabled>⏹ Stop</button>
+    <button id="playAudio" class="button" style="padding: 10px 18px; border-radius: 10px; font-size: 15px; font-weight: bold;
+    background: #ffffff; color: #333; border: none; box-shadow: 0 2px 6px rgba(0,0,0,0.15); transition: transform 0.2s;"
+    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" disabled>▶️ Play</button>
+    <button id="submitAudio" class="button" style="padding: 10px 18px; border-radius: 10px; font-size: 15px; font-weight: bold;
+    background: #ffffff; color: #333; border: none; box-shadow: 0 2px 6px rgba(0,0,0,0.15); transition: transform 0.2s;"
+    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" disabled>💾 Save</button>
+  </div>
+  <div id="timer" style="font-weight: bold; font-size: 16px; color: #fff; margin-bottom: 10px;"></div>
+  <audio style="border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 4px;" id="audioPlayback" controls style="margin-top: 10px; width: 100%; max-width: 350px;"></audio>
+</div>
+
+<div id="voiceFallbackContainer" style="background: #fff; color: #333; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-top: 20px;" style="display:flex; flex-direction: column; gap: 15px; align-items: center; margin-top: 10px;" style="margin-top: 30px; margin-bottom: 25px; padding: 20px; text-align: center;
+        border-radius: 10px; background: rgba(255, 255, 255, 0.15); box-shadow: 0 2px 5px rgba(0,0,0,0.2); backdrop-filter: blur(6px);">
+    <label for="voiceUpload" style="font-weight:bold; display:inline-block; font-size: 16px; margin-bottom:12px;">
+      <i class="fas fa-folder-open" style="margin-right: 8px;"></i><i class="fas fa-microphone-alt"></i> Upload a Voice Message</label>
+    <input type="file" id="voiceUpload" accept="audio/*"
+      style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;
+      background: #fff; color: #333; font-size: 15px; max-width: 280px;
+      width: 100%; display: inline-block; text-align: center;" />
+    <button id="submitUpload" disabled class="button" style="padding: 10px 18px; border-radius: 10px; font-size: 15px; font-weight: bold;
+    background: #ffffff; color: #333; border: none; box-shadow: 0 2px 6px rgba(0,0,0,0.15); transition: transform 0.2s;"
+    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" style="margin-top: 10px;">
+      <i class="fas fa-paper-plane"></i> Upload Voice Message
+    </button>
+    <div id="saveConfirmation" style="display:none; font-size:16px; color:#00e676; margin-top:10px;">✅ Saved!</div>
+    <audio style="border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 4px;" id="audioPlayback" style="margin-top: 10px; width: 100%; max-width: 350px;" controls style="margin-top: 15px; width: 100%; max-width: 300px;"></audio>
+  </div>
+</div>
+
+<script>
+document.getElementById("birthdayForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+  let msg = document.getElementById("message").value.trim();
+  if (msg.length === 0) return;
+  const stored = JSON.parse(localStorage.getItem("birthdayMessages") || "[]");
+  stored.push(msg);
+  localStorage.setItem("birthdayMessages", JSON.stringify(stored));
+  document.getElementById("message").value = "";
+  
+const thankYouPopup = document.createElement("div");
+thankYouPopup.innerHTML = "<div style='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:flex;justify-content:center;align-items:center;z-index:9999;'><div style='background:white;padding:30px 40px;border-radius:12px;text-align:center;color:#333;max-width:300px;box-shadow:0 4px 10px rgba(0,0,0,0.2);'><h2 style="font-size: 20px; font-weight: 600; color: #333;">🎉 Thank You!</h2><p>Your birthday message has been saved.</p><button onclick=\"this.closest('div').remove();\" style='margin-top:15px;padding:8px 14px;background:#fd6585;color:white;border:none;border-radius:6px;cursor:pointer;'>Close</button></div></div>";
+document.body.appendChild(thankYouPopup);
+
+  displayMessages();
+});
+
+function displayMessages() {
+  const messages = JSON.parse(localStorage.getItem("birthdayMessages") || "[]");
+  const container = document.getElementById("messageList");
+  container.innerHTML = "";
+  messages.forEach((msg, idx) => {
+    const div = document.createElement("div");
+    div.innerHTML = `🎂 ${msg} <button onclick="deleteMessage(${idx})" style="margin-left:10px;">❌</button>`;
+    container.appendChild(div);
+  });
+}
+
+function deleteMessage(index) {
+  const messages = JSON.parse(localStorage.getItem("birthdayMessages") || "[]");
+  messages.splice(index, 1);
+  localStorage.setItem("birthdayMessages", JSON.stringify(messages));
+  displayMessages();
+}
+
+function clearAllMessages() {
+  localStorage.removeItem("birthdayMessages");
+  displayMessages();
+}
+
+document.getElementById("voiceUpload").addEventListener("change", function () {
+  const file = this.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = reader.result;
+      document.getElementById("audioPlayback").src = base64;
+      document.getElementById("audioPlayback").load();
+      document.getElementById("submitUpload").disabled = false;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+document.getElementById("submitUpload").addEventListener("click", () => {
+  if (document.getElementById("audioPlayback").src) {
+    localStorage.setItem("lastVoiceMessage", document.getElementById("audioPlayback").src);
+    document.getElementById("saveConfirmation").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("saveConfirmation").style.display = "none";
+    }, 3000);
+  }
+});
+
+window.onload = () => {
+  displayMessages();
+};
+
+document.getElementById("submitAudio").addEventListener("click", () => {
+  const audioSrc = document.getElementById("audioPlayback").src;
+  if (audioSrc && audioSrc.startsWith("data:audio")) {
+    const storedAudios = JSON.parse(localStorage.getItem("voiceMessages") || "[]");
+    storedAudios.push({
+      url: audioSrc,
+      timestamp: new Date().toLocaleString(),
+      name: "Voice Message " + (storedAudios.length + 1)
+    });
+    localStorage.setItem("voiceMessages", JSON.stringify(storedAudios));
+    document.getElementById("saveConfirmation").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("saveConfirmation").style.display = "none";
+    }, 3000);
+  }
+});
+</script>
+
+<div style="margin-top: 30px; text-align: center;">
+  <a href="https://www.facebook.com/eunice.mathias.735" target="_blank" style="
+    display: inline-block;
+    background: #1877f2;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  ">
+    🎉 Wish Eunice on Facebook
+  </a>
+</div>
+
+<script>
+const isMediaRecorderSupported = !!(navigator.mediaDevices && window.MediaRecorder);
+window.addEventListener('DOMContentLoaded', () => {
+  if (isMediaRecorderSupported) document.getElementById("micControls").style.display = "flex";
+});
+
+let mediaRecorder;
+let audioChunks = [];
+let timerInterval;
+let seconds = 0;
+
+function startTimer() {
+  seconds = 0;
+  document.getElementById("timer").textContent = "⏱ 00:00";
+  timerInterval = setInterval(() => {
+    seconds++;
+    const min = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const sec = String(seconds % 60).padStart(2, '0');
+    document.getElementById("timer").textContent = `⏱ ${min}:${sec}`;
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  document.getElementById("timer").textContent = "";
+}
+
+document.getElementById("startRecord").addEventListener("click", async () => {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream);
+    audioChunks = [];
+
+    mediaRecorder.ondataavailable = (e) => {
+      if (e.data.size > 0) {
+        audioChunks.push(e.data);
+      }
+    };
+
+    mediaRecorder.onstop = () => {
+      stopTimer();
+      if (audioChunks.length === 0) return;
+      const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result;
+        if (!base64.startsWith("data:audio")) return;
+        const audio = document.getElementById("audioPlayback");
+        audio.src = base64;
+        audio.load();
+        document.getElementById("playAudio").disabled = false;
+        document.getElementById("submitAudio").disabled = false;
+        localStorage.setItem("lastVoiceMessage", base64);
+        document.getElementById("saveConfirmation").style.display = "block";
+        setTimeout(() => { document.getElementById("saveConfirmation").style.display = "none"; }, 3000);
+      };
+      reader.readAsDataURL(audioBlob);
+    };
+
+    mediaRecorder.start();
+    startTimer();
+    document.getElementById("startRecord").disabled = true;
+    document.getElementById("stopRecord").disabled = false;
+    document.getElementById("playAudio").disabled = true;
+    document.getElementById("submitAudio").disabled = true;
+  } catch (err) {}
+});
+
+document.getElementById("stopRecord").addEventListener("click", () => {
+  if (mediaRecorder && mediaRecorder.state !== "inactive") {
+    mediaRecorder.stop();
+    document.getElementById("stopRecord").disabled = true;
+    document.getElementById("startRecord").disabled = false;
+  }
+});
+
+document.getElementById("submitAudio").addEventListener("click", () => {
+  const audioSrc = document.getElementById("audioPlayback").src;
+  if (audioSrc && audioSrc.startsWith("data:audio")) {
+    const storedAudios = JSON.parse(localStorage.getItem("voiceMessages") || "[]");
+    storedAudios.push({
+      url: audioSrc,
+      timestamp: new Date().toLocaleString(),
+      name: "Voice Message " + (storedAudios.length + 1)
+    });
+    localStorage.setItem("voiceMessages", JSON.stringify(storedAudios));
+    document.getElementById("saveConfirmation").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("saveConfirmation").style.display = "none";
+    }, 3000);
+  }
+});
+</script>
+
+
+<!-- Floating Button -->
+<button onclick="document.getElementById('startRecord').click()" id="floatingRecordBtn" style="
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #ff4081;
+  color: white;
+  border: none;
+  padding: 14px 16px;
+  border-radius: 50%;
+  font-size: 22px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  cursor: pointer;
+  z-index: 9999;
+">
+  🎙
+</button>
+
+</body>
+</html>
